@@ -1,0 +1,173 @@
+\documentclass[10pt,twocolumn]{article}
+
+\usepackage{bold-extra}
+\usepackage{color}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{subfigure}
+\usepackage{url}
+
+%%%%%%%%%%%%%%%
+%%% Colours %%%
+%%%%%%%%%%%%%%%
+
+\definecolor{darkgreen}{rgb}{0, 0.6, 0}
+\definecolor{lightgrey}{gray}{0.9}
+
+%%%%%%%%%%%
+% Figures %
+%%%%%%%%%%%
+
+\newcommand{\stufigex}[5]					% images with specified placement
+{
+	\begin{figure}[#5]
+	\begin{center}
+		\includegraphics[#1]{#2}
+		\caption{#3}
+		\label{#4}
+	\end{center}
+	\end{figure}
+}
+
+% Define the stusubfig environment
+\newenvironment{stusubfig}[1]
+{
+	\begin{figure*}[#1]
+	\begin{center}
+}
+{
+	\end{center}
+	\end{figure*}
+}
+
+%%%%%%%%%%%%%%%%%
+% Code Listings %
+%%%%%%%%%%%%%%%%%
+
+% Create a new type of float (called a stulisting) for listings
+\floatstyle{ruled}
+\newfloat{stulisting}{thp}{lop}
+\floatname{stulisting}{Listing}
+
+% Setup before using the listings package
+\renewcommand{\lstlistingname}{\textbf{Listing}}
+\def\thelstlisting{\textbf{\arabic{lstlisting}}}
+
+\lstdefinelanguage{Pseudocode}{
+morekeywords={and,assert,break,case,continue,default,down,each,else,for,function,if,not,null,or,rangeswitch,ref,return,switch,then,this,throw,to,up,var,while},
+sensitive=true,
+morecomment=[l]{//},
+morecomment=[s]{/*}{*/}
+}
+
+\lstdefinestyle{Default}{
+abovecaptionskip=0.5cm,
+basicstyle=\scriptsize\ttfamily,
+belowcaptionskip=0.5cm,
+belowskip=0.5cm,
+columns=fixed,
+%commentstyle=\color{darkgreen},
+commentstyle=\textit, % changed from the thesis (green text looks unprofessional in a journal paper)
+language=Pseudocode,
+%numbers=left,
+numbers=none, % changed from the thesis (line numbers are less relevant here)
+numbersep=5pt,
+numberstyle=\tiny,
+mathescape=true,
+showstringspaces=false,
+stepnumber=1,
+tabsize=4
+}
+
+\lstdefinestyle{Snippet}{
+abovecaptionskip=0.5cm,
+aboveskip=0.5cm,
+basicstyle=\small\ttfamily,
+belowcaptionskip=0.5cm,
+belowskip=0.5cm,
+columns=fixed,
+commentstyle=\color{darkgreen},
+frame=lines,
+keywordstyle=\small\bfseries,
+language=Pseudocode,
+numbers=none,
+mathescape=true,
+showstringspaces=false,
+stepnumber=1,
+tabsize=4
+}
+
+% For C++ function prototypes
+\lstdefinestyle{Prototype}{
+abovecaptionskip=0.5cm,
+basicstyle=\small\ttfamily,
+belowcaptionskip=0.5cm,
+belowskip=0.5cm,
+columns=fixed,
+commentstyle=\color{darkgreen},
+language=C++,
+numbers=none,
+mathescape=true,
+showstringspaces=false,
+stepnumber=1,
+tabsize=4
+}
+
+%%%%%%%%%%%%%%%%%
+% Main Document %
+%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\title{Object-Environment Collision Detection using Onion BSPs}
+\author{Stuart Golodetz}
+\date{}
+\maketitle
+
+\section{Introduction}
+
+In my last article \cite{golodetzoverload13oct}, I described how to automatically generate navigation meshes to support the navigation of agents around 3D environments (e.g.~game worlds), as implemented in my homemade \emph{hesperus} engine \cite{hesperus}. However, there is far more to such navigation than simply mesh generation: it remains to be shown how to determine where (if anywhere) an agent can be found on the mesh and how to make best use of the mesh when allowing both user-controlled and AI agents to move around the environment. Agent movement must necessarily interact with an implementation's physics system, since the navigation mesh only covers the \emph{walkable} surfaces of the world and there is a need to ensure that agents are simulated correctly even when they are not on the mesh. In particular, any implementation needs to ensure that agents do not collide with either the world or each other, and that the effects of forces such as gravity are properly applied to them when not on the mesh. For that reason, before tackling the agent movement problem itself, it is important to take a step back and look at how to implement a simple physics system.
+
+As a first step to describing how the physics system in \emph{hesperus} works, I want to focus this article on a way of detecting collisions between objects (including agents) and their environment, via the construction of a special binary space partitioning (BSP) representation of the world that I call an \emph{onion BSP} (for reasons that will become obvious). Future articles will focus on how to detect object-object collisions using a technique called Minkowski Portal Refinement \cite{snethen08}, and how to combine the techniques into a rudimentary physics system, before we return to the original problem of agent movement. Readers who are interested in a more general look at games physics engine development are advised to take a look at the excellent (and aptly-named) book by Millington on the topic \cite{millington07}.
+
+The organisation of this article is as follows: in \S\ref{sec:bsps}, I briefly review the ideas behind binary space partitioning (readers may wish to take a look back at a previous article I wrote for more details \cite{golodetzoverload08aug}); in \S\ref{sec:onionbsps}, I describe how to construct onion BSPs, an extension of BSP trees for multiple configuration spaces, based on the approach of van Waveren in \cite{vanwaveren01}; in \S\ref{sec:collisiondetection}, I describe how to perform continuous collision detection between objects and onion BSPs using a simple algorithm for finding the first point at which a half-ray crosses a wall in the world; and in \S\ref{sec:conclusions} I conclude.
+
+\section{Binary Space Partitioning}
+\label{sec:bsps}
+
+TODO
+
+\section{Onion BSPs}
+\label{sec:onionbsps}
+
+TODO
+
+\section{Collision Detection}
+\label{sec:collisiondetection}
+
+TODO
+
+\section{Conclusions}
+\label{sec:conclusions}
+
+TODO
+
+\section{Acknowledgements}
+
+TODO
+
+%
+% Detecting Object-Object Collisions using Minkowski Portal Refinement
+% A Simple Physics Engine for 3D Games
+% Agent Localisation and Movement in 3D Environments
+%
+
+\clearpage
+
+%\nocite{*}
+
+\bibliographystyle{plain}
+\bibliography{onionbsp}
+
+\end{document}
