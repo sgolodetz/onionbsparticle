@@ -2,6 +2,7 @@
 
 \usepackage{bold-extra}
 \usepackage{color}
+\usepackage{epic}
 \usepackage{float}
 \usepackage{graphicx}
 \usepackage{listings}
@@ -142,6 +143,55 @@ TODO
 \label{sec:onionbsps}
 
 TODO: Explanation of onion BSPs in terms of configuration spaces
+
+%---
+\begin{stusubfig}{!t}
+	\subfigure[]
+	{
+	\begin{picture}(250,50)
+		\thicklines
+		\dashline{4}(0,35)(35,35)
+		\dashline{4}(0,165)(35,165)
+		\dashline{4}(215,165)(250,165)
+		\dashline{4}(215,25)(215,0)
+		\dashline{4}(35,75)(75,75)
+		\dashline{4}(175,75)(215,75)
+		\dashline{4}(35,125)(75,125)
+		\dashline{4}(175,125)(215,125)
+		\put(122.5,180){a}
+		\put(230,97.5){b}
+		\put(122.5,15){c}
+		\put(15,97.5){d}
+		\put(122.5,140){e}
+		\put(190,97.5){f}
+		\put(122.5,57.5){g}
+		\put(57.5,97.5){h}
+		\put(122.5,97.5){i}
+
+		\color{red}
+		\put(35.4,35.4){\framebox(179.2,129.2){}}
+		\put(125,35){\vector(0,1){10}}		\put(130,37.5){2}
+		\put(125,165){\vector(0,-1){10}}	\put(130,155){0}
+		\put(35,100){\vector(1,0){10}}		\put(37.5,105){3}
+		\put(215,100){\vector(-1,0){10}}	\put(207.5,105){1}
+		\color{green}
+		\put(75.4,75.4){\framebox(99.2,49.2){}}
+		\put(125,75){\vector(0,1){10}}		\put(130,77.5){6}
+		\put(125,125){\vector(0,-1){10}}	\put(130,115){4}
+		\put(75,100){\vector(1,0){10}}		\put(77.5,105){7}
+		\put(175,100){\vector(-1,0){10}}	\put(167.5,105){5}
+		\color{black}
+	\end{picture}
+	}
+	%
+	\hspace{12mm}%
+	%
+	\subfigure[]
+	{\includegraphics[width=.35\linewidth]{onion-example.png}}%
+\caption{TODO}
+\label{fig:onion-example}
+\end{stusubfig}
+%---
 
 \subsection{The Compilation Process}
 
