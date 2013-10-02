@@ -137,11 +137,15 @@ The organisation of this article is as follows: in \S\ref{sec:bsps}, I briefly r
 \section{Binary Space Partitioning}
 \label{sec:bsps}
 
-In its most general form, binary space partitioning is a technique for representing n-dimensional space as a binary tree (known as a BSP tree) by recursively dividing it into two using \emph{hyperplanes} (the n-dimensional generalisation of planes). For a 2D example, see Figure~\ref{?}. Each node of a BSP tree represents a convex subspace of the world being partitioned (see Figure~\ref{?}). Branch nodes have an associated split plane (a line with facing in 2D) that divides the subspace represented by the node in two. Each leaf node contains the polygons (line segments in 2D) that fall within the subspace it represents.
+%---
+\stufigex{width=.8\linewidth}{convexsubspaces.png}{Binary space partitioning divides a world, such as the \emph{Simple} level from \emph{hesperus} shown here, into convex subspaces. The translucent polygons in the figure represent portals between BSP leaves that highlight the boundaries between those convex subspaces.\vspace{-\baselineskip}}{fig:convexsubspaces}{!t}
+%---
 
-Binary space partitioning was originally introduced by Fuchs et.\ al \cite{fuchs80} in 1980. It saw widespread use in first-person games of the \emph{Quake} era (e.g.~see \cite{abrash97}) as a way of representing 3D game worlds, most notably because it provided a way of rendering a world's polygons in either back-to-front or front-to-back order without the need for a z-buffer on the graphics card (z-buffers once used to be quite costly). As graphics cards have matured, commercial games have moved away from binary space partitioning as a rendering approach, because traversing a BSP tree is relatively slow in comparison to simply throwing large numbers of triangles at the graphics card and letting the z-buffer handle the rendering order, but BSP trees remain interesting as a basis for collision detection.
+In its most general form, binary space partitioning is a technique for representing n-dimensional space as a binary tree (known as a BSP tree) by recursively dividing it into two using \emph{hyperplanes} (the n-dimensional generalisation of planes). Each node of a BSP tree represents a convex subspace of the world being partitioned (see Figure~\ref{fig:convexsubspaces}). For a 2D example, see Figure~\ref{?}. Branch nodes have an associated split plane (a line with facing in 2D) that divides the subspace represented by the node in two. Each leaf node contains the polygons (line segments in 2D) that fall within the subspace it represents.
 
 TODO: Briefly explain BSP construction
+
+Binary space partitioning was originally introduced by Fuchs et.\ al \cite{fuchs80} in 1980. It saw widespread use in first-person games of the \emph{Quake} era (e.g.~see \cite{abrash97}) as a way of representing 3D game worlds, most notably because it provided a way of rendering a world's polygons in either back-to-front or front-to-back order without the need for a z-buffer on the graphics card (z-buffers once used to be quite costly). As graphics cards have matured, commercial games have moved away from binary space partitioning as a rendering approach, because traversing a BSP tree is relatively slow in comparison to simply throwing large numbers of triangles at the graphics card and letting the z-buffer handle the rendering order, but BSP trees remain interesting as a basis for collision detection.
 
 \section{Onion BSPs}
 \label{sec:onionbsps}
