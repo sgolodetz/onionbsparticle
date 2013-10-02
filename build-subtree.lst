@@ -1,0 +1,61 @@
+function build_subtree
+:  (polys: ref Vector<Polygon>;
+    polyIndices: Vector<PolyIndex>;
+    nodes: ref Vector<Node>;
+    ancestors: ref Vector<Plane>) $\to$ Node
+
+var splitter: Plane
+  := choose_splitter(polyIndices);
+
+// If there were no suitable split candidates,
+// this is a leaf.
+if splitter = null then
+  var solidity: DynamicBitset
+    := determine_leaf_solidity(ancestors);
+  var indicesOnly: Vector<int>
+    := {i | (i,_) $\in$ polyIndices};
+  nodes.push_back(
+    Leaf(|nodes|, solidity, indicesOnly)
+  );
+  return nodes.back();
+
+var backPolys, frontPolys: Vector<PolyIndex>;
+for each pi@(index, splitCandidate) $\in$ polyIndices
+  var poly: Poly := polys[index];
+  switch classify_against_plane(poly, splitter)
+    case CP_BACK:
+      backPolys.push_back(pi);
+      break;
+    case CP_COPLANAR:
+      if splitter.norm().dot(poly.norm()) > 0 then
+        frontPolys.push_back((index, false));
+      else
+        backPolys.push_back((index, false));
+      break;
+    case CP_FRONT:
+      frontPolys.push_back(pi);
+      break;
+    case CP_STRADDLE:
+      (back, front) := split_poly(poly, splitter);
+      polys[index] := back;
+      polys.push_back(front);
+      backPolys.push_back(pi);
+      frontPolys.push_back(
+        (|polys| - 1, splitCandidate)
+      );
+      break;
+
+ancestors.push_back(splitter);
+var left: Node
+  := build_subtree(frontPolys, nodes, ancestors);
+ancestors.pop_back();
+
+ancestors.push_back(splitter.flipped());
+var right: Node
+  := build_subtree(backPolys, nodes, ancestors);
+ancestors.pop_back();
+
+var subRoot: Node
+  := Branch(|nodes|, splitter, left, right);
+nodes.push_back(subRoot);
+return subRoot;

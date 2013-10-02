@@ -1,0 +1,14 @@
+function build_tree
+:  (polys: Vector<Polygon>) $\to$ OnionBSP
+
+var nodes: Vector<Node>;
+var ancestors: Vector<Plane>;
+var polyIndices: Vector<PolyIndex>
+  := {(i,true) | $0 \le i < |\mbox{polys}|$};
+build_subtree(ref polys, polyIndices,
+  ref nodes, ref ancestors);
+return make_onion_bsp(nodes);
+
+class PolyIndex
+  var index: int;
+  var splitCandidate: boolean;
