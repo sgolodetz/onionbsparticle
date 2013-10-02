@@ -1,5 +1,5 @@
 function build_tree
-:  (polys: Vector<Polygon>) $\to$ OnionBSP
+:  (polys: Vector<Polygon>) $\to$ OnionBSPTree
 
 var nodes: Vector<Node>;
 var ancestors: Vector<Plane>;

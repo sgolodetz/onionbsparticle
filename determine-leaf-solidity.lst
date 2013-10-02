@@ -1,0 +1,18 @@
+function determine_leaf_solidity
+:  (ancestors: Vector<Plane>) $\to$ DynamicBitset
+
+// Assumed available from elsewhere:
+// * mapTrees: Vector<BSPTree>
+
+// Find an arbitrary point within the leaf with the
+// specified ancestor planes.
+var p: Vec3 := arbitrary_leaf_point(ancestors);
+
+// Classify the point against each map tree to
+// determine the solidity descriptor for the leaf.
+var solidity: DynamicBitset(|mapTrees|);
+for each $\mbox{mt}_i \in \mbox{mapTrees}$
+  var leaf: BSPLeaf := $\mbox{mt}_i$.find_leaf(p);
+  solidity[i] := leaf.is_solid();
+
+return solidity;
