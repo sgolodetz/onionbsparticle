@@ -205,7 +205,7 @@ TODO: Explanation of onion BSPs in terms of configuration spaces
 
 \subsection{The Compilation Process}
 
-Onion BSP compilation is in principle much the same as BSP compilation, but slightly trickier because we have to test the solidity of each leaf in each configuration space rather than getting it for free as part of the compilation process. An explanation of this testing process is deferred to the next section, but it also has an impact on the main part of the compilation. In particular, the test involves checking an arbitrary point in the leaf for solidity in each configuration space (the solidity of any point in the leaf is guaranteed to be the same as that of the entire leaf), so we will need (a) a way of determining an arbitrary point in a leaf, and (b) a way of testing a point for solidity in a configuration space. As will be seen, determining an arbitrary point in a leaf will involve knowing the set of split planes on the path from the root of the tree to the leaf, so these should be maintained during compilation. To test a point's solidity in a configuration space, we build a normal BSP tree for the space at the start of the compilation process and later classify the point with regard to it. To determine a full solidity vector for a leaf, we have to test the leaf's arbitrary point against each such BSP tree in turn.
+Onion BSP compilation is in principle much the same as BSP compilation, but slightly trickier because we have to test the solidity of each leaf in each configuration space rather than getting it for free as part of the compilation process. An explanation of this testing process is deferred to the next section, but it also has an impact on the main part of the compilation. In particular, the test involves checking an arbitrary point in the leaf for solidity in each configuration space (the solidity of any point in the leaf is guaranteed to be the same as that of the entire leaf), so we will need (a) a way of determining an arbitrary point in a leaf, and (b) a way of testing a point for solidity in a configuration space. As will be seen, determining an arbitrary point in a leaf will involve knowing the set of split planes on the path from the root of the tree to the leaf, so these should be maintained during compilation.
 
 The resulting main compilation process is shown in Listings~\ref{code:build-tree} and \ref{code:build-subtree}. The key thing to note is the way in which a set of split planes is maintained in order to facilitate solidity testing -- we add the current split plane to the set before each recursive call to \texttt{build\_subtree} and remove it again afterwards, so that whenever we reach a leaf it will contain precisely those split planes on the path from the root of the tree to the leaf. Note that orientation is important, so the current split plane must be reversed when recursing into the right-hand subtree.
 
@@ -227,7 +227,11 @@ The resulting main compilation process is shown in Listings~\ref{code:build-tree
 
 \subsection{Determining Leaf Solidity}
 
-TODO
+A \emph{solidity descriptor} for a leaf in an onion BSP is a list of bits indicating whether the leaf is empty or solid in each configuration space for which we compiled the BSP. It is common for a leaf to be empty in one configuration space and solid in another -- for example, a leaf might be empty in the configuration space corresponding to the crouch pose of an agent, but solid in the configuration space corresponding to the standing pose, indicating that the agent can traverse the leaf whilst crouching but not whilst standing (e.g.~think of a low tunnel). To determine a leaf's solidity descriptor, we find an arbitrary point in the leaf and check its solidity in each configuration space in turn; the resulting empty/solid results are combined to form the full solidity descriptor. To test points' solidity in a configuration space, we build a normal BSP tree (called a \emph{map tree} in the code) for the space at the start of the compilation process and later classify points with regard to it. The top-level process to determine leaf solidity is shown in Listing~\ref{code:determine-leaf-solidity}.
+
+\subsubsection{Finding an Arbitrary Leaf Point}
+
+It remains to be shown how to find an arbitrary point in a given leaf. TODO
 
 %---
 \begin{stulisting}[!t]
