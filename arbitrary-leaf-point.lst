@@ -1,0 +1,62 @@
+function arbitrary_leaf_point
+:  (ancestors: Vector<Plane>) $\to$ Vec3
+
+// Step 1: Make an inward-facing convex polyhedron
+// around the leaf.
+
+// Make an array of possible bounding planes: these
+// are the ancestor planes themselves, plus the
+// planes that bound the 3D world. The planes are
+// specified as ax + by + cz - d = 0.
+const HALFWORLDBOUND: double := 100000;
+var planes: Vector<Plane> := ancestors;
+planes.push_back(Plane((1,0,0), -HALFWORLDBOUND));
+planes.push_back(Plane((-1,0,0), -HALFWORLDBOUND));
+planes.push_back(Plane((0,1,0), -HALFWORLDBOUND));
+planes.push_back(Plane((0,-1,0), -HALFWORLDBOUND));
+planes.push_back(Plane((0,0,1), -HALFWORLDBOUND));
+planes.push_back(Plane((0,0,-1), -HALFWORLDBOUND));
+
+var faces: Vector<Poly>;
+for each $p_i: \mbox{Plane} \in \mbox{planes}$
+  // Build a large initial face on each plane.
+  var face: Poly := make_large_poly($p_i$);
+
+  // Clip it to the other planes.
+  var discard: bool := false;
+  for each $p_j: \mbox{Plane} \in \mbox{planes}$
+    if j = i then continue;
+    switch classify_against_plane(face, $p_j$)
+      case CP_BACK:
+	    // Face entirely out of leaf.
+        discard = true;
+        break;
+      case CP_COPLANAR:
+        // Shouldn't happen: ancestors are unique.
+        throw "Unexpected duplicate plane";
+      case CP_FRONT:
+        // Face entirely in leaf.
+        continue;
+      case CP_STRADDLE:
+	    // Part of face in leaf, part not.
+		(_,front) := split_poly(face, $p_j$);
+		face := front;
+		break;
+
+    if discard then break; // early out
+
+  // Add surviving faces to the array.
+  if not discard then faces.push_back(face);
+
+// Step 2:	Compute the average of the polyhedron
+// face midpoints.
+var denom: int := 0;
+var p: Vec3(0,0,0);
+for each face: Poly $\in$ faces
+  for each v $\in$ face.vertices()
+    p := p + v;
+    denom := denom + 1;
+
+assert $\mbox{denom} \ne 0$;
+p := p / denom;
+return p;
