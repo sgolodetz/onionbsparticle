@@ -230,10 +230,6 @@ The resulting main compilation process is shown in Listings~\ref{code:build-tree
 
 A \emph{solidity descriptor} for a leaf in an onion BSP is a list of bits indicating whether the leaf is empty or solid in each configuration space for which we compiled the BSP. It is common for a leaf to be empty in one configuration space and solid in another -- for example, a leaf might be empty in the configuration space corresponding to the crouch pose of an agent, but solid in the configuration space corresponding to the standing pose, indicating that the agent can traverse the leaf whilst crouching but not whilst standing (e.g.~think of a low tunnel). To determine a leaf's solidity descriptor, we find an arbitrary point in the leaf and check its solidity in each configuration space in turn; the resulting empty/solid results are combined to form the full solidity descriptor. To test points' solidity in a configuration space, we build a normal BSP tree (called a \emph{map tree} in the code) for the space at the start of the compilation process and later classify points with regard to it. The top-level process to determine leaf solidity is shown in Listing~\ref{code:determine-leaf-solidity}.
 
-\subsubsection{Finding an Arbitrary Leaf Point}
-
-It remains to be shown how to find an arbitrary point in a given leaf. TODO
-
 %---
 \begin{stulisting}[!t]
 \caption{Determining Leaf Solidity}
@@ -242,6 +238,11 @@ It remains to be shown how to find an arbitrary point in a given leaf. TODO
 \end{stulisting}
 %---
 
+\subsubsection{Finding an Arbitrary Leaf Point}
+
+To find an arbitrary point in a leaf, recall that each leaf represents a convex subspace of the world. Our first intuition might be to create an explicit representation of the leaf as a convex polyhedron and then compute the average of the midpoints of the polyhedron's faces as our point. This does in fact work perfectly for fully-bounded leaves (see Figure~\ref{?}(a)), but unfortunately fails for unbounded ones (see Figure~\ref{?}(b)). Fortunately, in practice, there is an easy solution to this problem: we can simply stipulate that the world we are representing is bounded by an inward-facing box, thereby ensuring that every leaf is bounded (see Figure~\ref{?}). This is clearly a reasonable assumption in the context of representing a 3D world, since it would not be meaningful for such a world to be infinite. (The interested reader may wish to take a look at \cite{seidel91}, where a similar approach is taken to deal with unboundedness in a related linear programming problem.)
+
+The algorithm itself is shown in Listing~\ref{?}. It is called with the set of ancestor planes leading down to the given leaf in the tree (recall that these are maintained as part of the top-level compilation process). These are augmented with the planes of the inward-facing box that we are assuming bounds the world. We then construct an extremely large polygon on each of the planes in turn, and clip it to the other planes (see \cite{hesperus} for the implementation details). The set of polygons that results forms a convex polyhedron representing the (bounded) leaf. As previously stated, we finally compute the midpoint of each face of the polyhedron and average them to produce an arbitrary point that is guaranteed to be inside the leaf.
 
 \section{Collision Detection}
 \label{sec:collisiondetection}
