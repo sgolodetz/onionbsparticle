@@ -139,10 +139,72 @@ The organisation of this article is as follows: in \S\ref{sec:bsps}, I briefly r
 \label{sec:bsps}
 
 %---
-\stufigex{width=.9\linewidth}{convexsubspaces.png}{Binary space partitioning divides a world, such as the \emph{simple} level from \emph{hesperus} shown here, into convex subspaces, represented by the leaves of the BSP tree. The translucent polygons in the figure represent \emph{portals} (doorways) between the leaves that highlight the boundaries between those convex subspaces.}{fig:convexsubspaces}{!t}
+\begin{stusubfig}{!t}
+	\subfigure[]
+	{
+	\begin{picture}(200,50)
+		\thicklines
+		%\dashline{4}(0,35)(35,35)
+		%\dashline{4}(0,165)(35,165)
+		%\dashline{4}(215,165)(250,165)
+		%\dashline{4}(215,25)(215,0)
+		%\dashline{4}(35,75)(75,75)
+		%\dashline{4}(175,75)(215,75)
+		%\dashline{4}(35,125)(75,125)
+		%\dashline{4}(175,125)(215,125)
+		%\put(122.5,180){a}
+		%\put(230,97.5){b}
+		%\put(122.5,15){c}
+		%\put(15,97.5){d}
+		%\put(122.5,140){e}
+		%\put(190,97.5){f}
+		%\put(122.5,57.5){g}
+		%\put(57.5,97.5){h}
+		%\put(122.5,97.5){i}
+		\dashline{4}(0,150)(200,150)
+		\dashline{4}(0,200)(200,200)
+		\dashline{4}(0,100)(200,100)
+		\dashline{4}(150,100)(150,0)
+		\dashline{4}(50,50)(0,50)
+
+		\color{red}
+		\drawline(75,100)(50,100)(50,50)(150,50)(150,100)(125,100)
+		\put(100,50){\vector(0,1){10}}			\put(97.5,37.5){6}
+		\put(50,75){\vector(1,0){10}}				\put(40,72.5){7}
+		\put(150,75){\vector(-1,0){10}}			\put(155,72.5){5}
+		\put(62.5,100){\vector(0,-1){10}}		\put(60,105){8}
+		\put(137.5,100){\vector(0,-1){10}}	\put(135,105){4}
+		\color{green}
+		\drawline(75,100)(75,150)
+		\drawline(125,100)(125,150)
+		\put(75,125){\vector(1,0){10}}			\put(65,121){9}
+		\put(125,125){\vector(-1,0){10}}		\put(130,121){3}
+		\color{blue}
+		\drawline(75,150)(50,150)(50,200)(150,200)(150,150)(125,150)
+		\put(62.5,150){\vector(0,1){10}}		\put(57.5,137.5){10}
+		\put(137.5,150){\vector(0,1){10}}		\put(135,137.5){2}
+		\put(50,175){\vector(1,0){10}}			\put(35,172.5){11}
+		\put(150,175){\vector(-1,0){10}}		\put(155,172.5){1}
+		\put(100,200){\vector(0,-1){10}}		\put(97.5,205){0}
+		\color{black}
+	\end{picture}
+	}
+	%
+	\hspace{8mm}%
+	%
+	\subfigure[]
+	{\includegraphics[width=.5\linewidth]{bsp-example-b.png}}%
+	%
+	\\\vspace{4mm}
+	%
+	\subfigure[]
+	{\includegraphics[width=.5\linewidth]{bsp-example-c.png}}%
+\caption{A BSP example for a simple world with two rooms, connected by a corridor: (a) shows a top-down view of the world, where the arrows represent the facings of the world polygons and the dashed lines represent split planes in the BSP tree; (b) shows a possible BSP tree that might be constructed for such a world; (c) shows what the world looks like in \emph{hesperus}, with portals (doorways) rendered as translucent polygons to illustrate the boundaries between the empty leaves of the BSP.}
+\label{fig:bsp-example}
+\end{stusubfig}
 %---
 
-In its most general form, binary space partitioning is a technique for representing n-dimensional space as a binary tree (known as a BSP tree) by recursively dividing it into two using \emph{hyperplanes} (the n-dimensional generalisation of planes). For a 2D example, see Figure~\ref{?}. Each node of a BSP tree represents a convex subspace of the world being partitioned; moreover, the leaves of the tree represent a \emph{partition} of the entire space, i.e.~they are mutually disjoint and their union is equal to the space (see Figure~\ref{fig:convexsubspaces}). Each branch node has an associated split plane (a line with facing in 2D) that divides the subspace represented by the node in two. Each leaf node contains the polygons (line segments in 2D) that fall within the subspace it represents.
+In its most general form, binary space partitioning is a technique for representing n-dimensional space as a binary tree (known as a BSP tree) by recursively dividing it into two using \emph{hyperplanes} (the n-dimensional generalisation of planes). For an example, see Figure~\ref{fig:bsp-example}. Each node of a BSP tree represents a convex subspace of the world being partitioned; moreover, the leaves of the tree represent a \emph{partition} of the entire space, i.e.~they are mutually disjoint and their union is equal to the space. Each branch node has an associated split plane (a line with facing in 2D) that divides the subspace represented by the node in two. Each leaf node contains the polygons (line segments in 2D) that fall within the subspace it represents.
 
 Binary space partitioning was originally introduced by Fuchs et.\ al \cite{fuchs80} in 1980. It saw widespread use in first-person games of the \emph{Quake} era (e.g.~see \cite{abrash97}) as a way of representing 3D polygonal game worlds, most notably because it provided a way of rendering a world's polygons in either back-to-front or front-to-back order \cite{fuchs80,gordon91} without the need for a z-buffer on the graphics card (z-buffers once used to be quite costly). As graphics cards have matured, commercial games have moved away from binary space partitioning as a rendering approach, because traversing a BSP tree is relatively slow in comparison to simply throwing large numbers of triangles at the graphics card and letting the z-buffer handle the rendering order, but BSP trees remain interesting as a basis for collision detection and constructive solid geometry techniques \cite{ericson05,lysenko08}.
 

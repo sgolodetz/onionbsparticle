@@ -6,28 +6,28 @@ graph
 
 	node [shape=circle];
 
-	n2 [label="2"];
-	n0 [label="0"];
-	n1 [label="1"];
-	n11 [label="11"];
-	n4 [label="4"];
-	n5 [label="5"];
-	n6 [label="6"];
-	n7 [label="7"];
-	n3 [label="3"];
-	n9 [label="9"];
+	n2 [label="2", color=blue];
+	n0 [label="0", color=blue];
+	n1 [label="1", color=blue];
+	n11 [label="11", color=blue];
+	n4 [label="4", color=red];
+	n5 [label="5", color=red];
+	n6 [label="6", color=red];
+	n7 [label="7", color=red];
+	n3 [label="3", color=green];
+	n9 [label="9", color=green];
 
 	node [shape=box, fixedsize=false];
 
-	na [label="&#8869;(a)"];
+	na [label="&#8869;(a)", style=filled, fontcolor=white, fillcolor=blue];
 	nb [label="T(b)"];
 	nc [label="T(c)"];
 	nd [label="T(d)"];
-	ne [label="&#8869;(e)"];
+	ne [label="&#8869;(e)", style=filled, fontcolor=white, fillcolor=red];
 	nf [label="T(f)"];
 	ng [label="T(g)"];
 	nh [label="T(h)"];
-	ni [label="&#8869;(i)"];
+	ni [label="&#8869;(i)", style=filled, fontcolor=white, fillcolor=green];
 	nj [label="T(j)"];
 	nk [label="T(k)"];
 
