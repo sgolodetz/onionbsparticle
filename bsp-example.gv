@@ -1,0 +1,54 @@
+// Note: To regenerate, use "dot -Tsvg:svg:core bsp-example.gv -O" and then resave as PNG.
+
+graph
+{
+	graph[ranksep=0.05];
+
+	node [shape=circle];
+
+	n2 [label="2"];
+	n0 [label="0"];
+	n1 [label="1"];
+	n11 [label="11"];
+	n4 [label="4"];
+	n5 [label="5"];
+	n6 [label="6"];
+	n7 [label="7"];
+	n3 [label="3"];
+	n9 [label="9"];
+
+	node [shape=box, fixedsize=false];
+
+	na [label="&#8869;(a)"];
+	nb [label="T(b)"];
+	nc [label="T(c)"];
+	nd [label="T(d)"];
+	ne [label="&#8869;(e)"];
+	nf [label="T(f)"];
+	ng [label="T(g)"];
+	nh [label="T(h)"];
+	ni [label="&#8869;(i)"];
+	nj [label="T(j)"];
+	nk [label="T(k)"];
+
+	n2 -- n0;
+	n0 -- n1;
+	n1 -- n11;
+	n11 -- na;
+	n11 -- nb;
+	n1 -- nc;
+	n0 -- nd;
+	n2 -- n4;
+	n4 -- n5;
+	n5 -- n6;
+	n6 -- n7;
+	n7 -- ne;
+	n7 -- nf;
+	n6 -- ng;
+	n5 -- nh;
+	n4 -- n3;
+	n3 -- n9;
+	n9 -- ni;
+	n9 -- nj;
+	n3 -- nk;
+}
