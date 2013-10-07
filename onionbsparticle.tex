@@ -142,7 +142,7 @@ The organisation of this article is as follows: in \S\ref{sec:bsps}, I briefly r
 \begin{stusubfig}{!t}
 	\subfigure[]
 	{
-	\begin{picture}(200,50)
+	\begin{picture}(200,200)
 		\thicklines
 		\dashline{4}(0,150)(200,150)
 		\dashline{4}(0,200)(200,200)
@@ -213,7 +213,7 @@ An extremely detailed description of BSP construction, together with diagrams th
 \begin{stusubfig}{!t}
 	\subfigure[]
 	{
-	\begin{picture}(250,50)
+	\begin{picture}(250,200)
 		\thicklines
 		\dashline{4}(0,35)(35,35)
 		\dashline{4}(0,165)(35,165)
@@ -304,6 +304,49 @@ A \emph{solidity descriptor} for a leaf in an onion BSP is a list of bits indica
 
 \subsubsection{Finding an Arbitrary Leaf Point}
 
+%---
+\begin{stusubfig}{!t}
+	\subfigure[]
+	{
+	\begin{picture}(150,150)
+		\thicklines
+		\color{red}
+		\drawline(54,52)(96,52)	\dashline{4}(0,52)(50,52)		\dashline{4}(100,52)(150,52)
+		\drawline(98,54)(98,96)	\dashline{4}(98,0)(98,50)		\dashline{4}(98,100)(98,150)
+		\drawline(96,98)(54,98)	\dashline{4}(0,98)(50,98)		\dashline{4}(100,98)(150,98)
+		\drawline(52,54)(52,96)	\dashline{4}(52,0)(52,50)		\dashline{4}(52,100)(52,150)
+		\put(52,25){\vector(1,0){10}}
+		\put(52,125){\vector(1,0){10}}
+		\put(98,25){\vector(-1,0){10}}
+		\put(98,125){\vector(-1,0){10}}
+		\put(25,52){\vector(0,1){10}}
+		\put(125,52){\vector(0,1){10}}
+		\put(25,98){\vector(0,-1){10}}
+		\put(125,98){\vector(0,-1){10}}
+		\color{black}
+		\drawline(50,50)(100,50)(100,100)(50,100)(50,50)
+		\color{green}
+		\drawline(75,52)(75,98)
+		\drawline(52,75)(98,75)
+		\color{red}
+		\put(75,52){\circle*{7}}
+		\put(98,75){\circle*{7}}
+		\put(75,98){\circle*{7}}
+		\put(52,75){\circle*{7}}
+		\color{green}
+		\put(75,75){\circle*{7}}
+	\end{picture}
+	}
+	%
+	\hspace{4mm}%
+	%
+	%\subfigure[]
+	%{}%
+\caption{TODO}
+\label{fig:arbitrary-leaf-point}
+\end{stusubfig}
+%---
+
 To find an arbitrary point in a leaf, recall that each leaf represents a convex subspace of the world. Our first intuition might be to create an explicit representation of the leaf as a convex polyhedron and then compute the average of the midpoints of the polyhedron's faces as our point. This does in fact work perfectly for fully-bounded leaves (see Figure~\ref{?}(a)), but unfortunately fails for unbounded ones (see Figure~\ref{?}(b)). Fortunately, in practice, there is an easy solution to this problem: we can simply stipulate that the world we are representing is bounded by an inward-facing box, thereby ensuring that every leaf is bounded (see Figure~\ref{?}). This is clearly a reasonable assumption in the context of representing a 3D world, since it would not be meaningful for such a world to be infinite. (The interested reader may wish to take a look at \cite{seidel91}, where a similar approach is taken to deal with unboundedness in a related linear programming problem.)
 
 The algorithm itself is shown in Listing~\ref{code:arbitrary-leaf-point}. It is called with the set of ancestor planes leading down to the given leaf in the tree (recall that these are maintained as part of the top-level compilation process). These are augmented with the planes of the inward-facing box that we are assuming bounds the world. We then construct an extremely large polygon on each of the planes in turn, and clip it to the other planes (see \cite{hesperus} for the implementation details). The set of polygons that results forms a convex polyhedron representing the (bounded) leaf. As previously stated, we finally compute the midpoint of each face of the polyhedron and average them to produce an arbitrary point that is guaranteed to be inside the leaf.
@@ -341,7 +384,7 @@ TODO
 % Agent Localisation and Movement in 3D Environments
 %
 
-\clearpage
+%\clearpage
 
 %\nocite{*}
 
