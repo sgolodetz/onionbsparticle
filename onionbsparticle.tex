@@ -139,7 +139,7 @@ The organisation of this article is as follows: in \S\ref{sec:bsps}, I briefly r
 \label{sec:bsps}
 
 %---
-\begin{stusubfig}{!t}
+\begin{stusubfig}{p}
 	\subfigure[]
 	{
 	\begin{picture}(200,200)
@@ -204,7 +204,7 @@ An example BSP tree is shown in Figure~\ref{fig:bsp-example}. Each node of the t
 
 Constructing a BSP tree for a polygonal world is also done recursively, starting from the set of all the polygons in the world. At each recursive step, one of the current set of polygons whose plane has not been used further up the tree is chosen as the \emph{split polygon}, and its plane is used to split the other polygons into two sets, one of polygons that are in front of the plane and one of those that are behind it. (If no suitable split polygon can be found, then we create a leaf of the tree to contain the current set of polygons and return.) If a polygon straddles the plane, it is split, with its two halves being placed in the appropriate sets. If a polygon lies on the plane, it is put into either the front or back set based on the orientation of its normal with respect to the plane. The two sets of polygons are then processed recursively to construct the subtrees of the current node. Finally, a branch node is constructed from the split plane and the two subtrees.
 
-An extremely detailed description of BSP construction, together with diagrams that clarify precisely how the process works, can be found in \cite{golodetz06}; readers may additionally wish to take a look back at a previous article I wrote for \emph{Overload} that also discussed BSP construction \cite{golodetzoverload08aug}.
+An extremely detailed description of BSP construction, together with diagrams that clarify precisely how the process works, can be found in \cite{golodetz06}; readers may additionally wish to take a look back at a previous article I wrote for \emph{Overload} \cite{golodetzoverload08aug}.
 
 \section{Onion BSPs}
 \label{sec:onionbsps}
@@ -305,7 +305,7 @@ A \emph{solidity descriptor} for a leaf in an onion BSP is a list of bits indica
 \subsubsection{Finding an Arbitrary Leaf Point}
 
 %---
-\begin{stusubfig}{!t}
+\begin{stusubfig}{p}
 	\subfigure[]
 	{
 	\begin{picture}(150,150)
@@ -392,7 +392,7 @@ A \emph{solidity descriptor} for a leaf in an onion BSP is a list of bits indica
 		\put(125,125){\circle*{7}}
 	\end{picture}
 	}
-\caption{TODO}
+\caption{Finding an arbitrary point in a leaf of a simple 2D world with a single room (shown in black). In (a), we can successfully build a convex polyhedron for the bounded leaf representing the room itself and then average the midpoints of the polyhedron's faces (shown in red) to find a suitable point (shown in green). In (b), the same procedure fails for the unbounded leaf behind the room's topmost wall. In (c), we rectify the problem by adding bounding planes (shown in blue) around the world as a whole. This ensures that all of the leaves are bounded, allowing the method to work.}
 \label{fig:arbitrary-leaf-point}
 \end{stusubfig}
 %---
