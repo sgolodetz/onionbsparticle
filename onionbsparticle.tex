@@ -283,7 +283,7 @@ The resulting main compilation process is shown in Listings~\ref{code:build-tree
 %---
 
 %---
-\begin{stulisting}[!t]
+\begin{stulisting}[tp]
 \caption{Building an Onion Subtree}
 \label{code:build-subtree}
 \lstinputlisting[style=Default]{build-subtree.lst}
@@ -402,7 +402,7 @@ To find an arbitrary point in a leaf, recall that each leaf represents a convex 
 The algorithm itself is shown in Listing~\ref{code:arbitrary-leaf-point}. It is called with the set of ancestor planes leading down to the given leaf in the tree (recall that these are maintained as part of the top-level compilation process). These are augmented with the planes of the inward-facing box that we are assuming bounds the world. We then construct an extremely large polygon on each of the planes in turn, and clip it to the other planes (see \cite{hesperus} for the implementation details). The set of polygons that results forms a convex polyhedron representing the (bounded) leaf. As previously stated, we finally compute the midpoint of each face of the polyhedron and average them to produce an arbitrary point that is guaranteed to be inside the leaf.
 
 %---
-\begin{stulisting}[!t]
+\begin{stulisting}[tp]
 \caption{Finding an Arbitrary Leaf Point}
 \label{code:arbitrary-leaf-point}
 \lstinputlisting[style=Default]{arbitrary-leaf-point.lst}
@@ -415,7 +415,7 @@ The algorithm itself is shown in Listing~\ref{code:arbitrary-leaf-point}. It is 
 Having constructed an onion BSP for the world, it is now possible to perform collision detection against it for objects with a specific AABB, using a variant of the `find first transition' algorithm mentioned in \S\ref{sec:onionbsps}. The algorithm works as shown in Listing~\ref{code:find-first-transition}. TODO
 
 %---
-\begin{stulisting}[!t]
+\begin{stulisting}[tp]
 \caption{Find First Transition (Onion BSP Version)}
 \label{code:find-first-transition}
 \lstinputlisting[style=Default]{find-first-transition.lst}
@@ -442,7 +442,7 @@ TODO
 % Agent Localisation and Movement in 3D Environments
 %
 
-%\clearpage
+\clearpage
 
 %\nocite{*}
 
