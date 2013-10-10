@@ -1,0 +1,61 @@
+function fft_sub: (src: Vec3; dest: Vec3;
+  node: Node) $\to$ Transition
+
+// Assumed available throughout:
+// * cSpace: int [the configuration space index]
+
+var leaf: Leaf := node.as_leaf();
+if leaf $\ne$ null then
+  return leaf.is_solid(cSpace) ? RAY_S : RAY_E;
+
+var br: Branch := node.as_branch();
+var left, right: Node := br.left(), br.right();
+var splitter: Plane := br.splitter();
+var cpSrc, cpDest: PlaneClassifier;
+switch classify_against_plane
+(src, dest, splitter, ref cpSrc, ref cpDest)
+  case CP_BACK:
+    return fft_sub(src, dest, right);
+  case CP_COPLANAR:
+    var trLeft: Transition :=
+	  fft_sub(src, dest, left);
+	var trRight: Transition :=
+	  fft_sub(src, dest, right);
+	if trLeft.class = trRight.class then
+	  switch trLeft.class
+	    case RAY_E|RAY_S:
+		  return trLeft;
+		default:
+		  var dLeft: double := $|\mbox{src} - \mbox{trLeft.loc}|^2$;
+		  var dRight: double := $|\mbox{src} - \mbox{trRight.loc}|^2$;
+		  return dLeft < dRight ? trLeft : trRight;
+    else if trLeft.class = RAY_E2S|RAY_S2E then
+	  return trLeft;
+	else if trRight.class = RAY_E2S|RAY_S2E then
+	  return trRight;
+	else return RAY_E;
+  case CP_FRONT:
+    return fft_sub(src, dest, left);
+  default:	// case CP_STRADDLE
+    var mid: Vec3 :=
+	  intersect(src, dest, splitter);
+	(near,far) := cpSrc = CP_FRONT ?
+	  (left,right) : (right,left);
+	var trNear: Transition :=
+	  fft_sub(src, mid, near);
+	if trNear.loc $\ne$ null then return trNear;
+	var trFar: Transition :=
+	  fft_sub(mid, dest, far);
+	switch trFar.class
+	  case RAY_E:
+	    return trNear.class = RAY_E ? RAY_E :
+		  Transition(RAY_S2E, mid, splitter);
+      case RAY_S:
+	    return trNear.class = RAY_S ? RAY_S :
+		  Transition(RAY_E2S, mid, splitter);
+	  case RAY_E2S:
+	    return trNear.class = RAY_E ? trFar :
+		  Transition(RAY_S2E, mid, splitter);
+      default: // case RAY_S2E
+	    return trNear.class = RAY_S ? trFar :
+		  Transition(RAY_E2S, mid, splitter);
