@@ -422,7 +422,7 @@ As mentioned, the ultimate result of the `find first transition' algorithm is ei
 t = \sqrt{\frac{|\mathbf{c} - \mathbf{s}|^2}{|\mathbf{d} - \mathbf{s}|^2}}
 \]
 %
-The case of a trivial transition that lies entirely in solid space should also be handled, for robustness. In practical terms, this can very occasionally happen due to rounding errors when the source endpoint of the movement ray is on an empty/solid boundary. A simple way of dealing with the issue is to repeat the find first transition call with a source endpoint that is moved back from the boundary by a small amount (i.e.~$\mathbf{s'} = \mathbf{s} - \epsilon(\mathbf{d} - \mathbf{s})$).
+The case of a trivial transition that lies entirely in solid space needs special handling to ensure robustness. In practical terms, this can very occasionally happen due to rounding errors when the source endpoint of the movement ray is on an empty/solid boundary. A simple way of dealing with the issue is to repeat the find first transition call with a source endpoint that is moved back from the boundary by a small amount (i.e.~$\mathbf{s'} = \mathbf{s} - \epsilon(\mathbf{d} - \mathbf{s})$).
 
 %---
 \begin{stulisting}[tp]
