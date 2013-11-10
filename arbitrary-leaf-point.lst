@@ -28,7 +28,7 @@ for each $p_i: \mbox{Plane} \in \mbox{planes}$
     if j = i then continue;
     switch classify_against_plane(face, $p_j$)
       case CP_BACK:
-	    // Face entirely out of leaf.
+        // Face entirely out of leaf.
         discard = true;
         break;
       case CP_COPLANAR:
@@ -38,10 +38,10 @@ for each $p_i: \mbox{Plane} \in \mbox{planes}$
         // Face entirely in leaf.
         continue;
       case CP_STRADDLE:
-	    // Part of face in leaf, part not.
-		(_,front) := split_poly(face, $p_j$);
-		face := front;
-		break;
+        // Part of face in leaf, part not.
+        (_,front) := split_poly(face, $p_j$);
+        face := front;
+        break;
 
     if discard then break; // early out
 
